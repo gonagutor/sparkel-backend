@@ -1,6 +1,11 @@
 import { Router } from 'express';
 import {
-  login, register, registerElevatedUser, generateInviteCode,
+  login,
+  register,
+  registerElevatedUser,
+  generateInviteCode,
+  validateUser,
+  regenerateValidationToken,
 } from '../controllers/auth.controller';
 import { isAdmin, isUser, isValidated } from '../middlewares/checkRoles';
 import isLoggedIn from '../middlewares/logedInCheck';
@@ -11,5 +16,7 @@ router.post('/login', login);
 router.post('/register', register);
 router.post('/register/elevated', [isLoggedIn, isValidated, isAdmin], registerElevatedUser);
 router.get('/newcode', [isLoggedIn, isUser, isValidated], generateInviteCode);
+router.get('/validate', validateUser);
+router.post('/validate/regenerate', regenerateValidationToken);
 
 export default router;
