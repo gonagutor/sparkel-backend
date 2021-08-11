@@ -41,12 +41,17 @@ export async function login(req, res) {
       res.status(401).json({ message: 'Your account is not verified. Check your email' });
       return;
     } // Notify user to verify their account
-
+    const token = jwt.sign({
+      id: registeredUser.id,
+      roles: registeredUser.roles,
+    }, process.env.SECRET, { expiresIn: 60 * 60 * 24 * 15 });
+    res.cookie('AccessToken', JSON.stringify(token), {
+      secure: true,
+      httpOnly: true,
+      expires: moment().add(15, 'days').toDate(),
+    });
     res.status(200).json({
-      token: jwt.sign({
-        id: registeredUser.id,
-        roles: registeredUser.roles,
-      }, process.env.SECRET, { expiresIn: 60 * 60 * 24 * 15 }),
+      token,
     });
   } catch (e) {
     res.status(400).json({ message: 'Request malformed' });
