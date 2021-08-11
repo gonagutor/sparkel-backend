@@ -6,6 +6,7 @@ import Console from 'console';
 import Models from '../models/init-models';
 import { comparePassword, encryptPassword } from '../libs/password';
 import generateVerificationToken from '../libs/verificationCodes';
+import '../mails/mailer';
 
 const {
   Users, InviteCodes, Profiles, VerificationCodes,
@@ -35,7 +36,7 @@ export async function login(req, res) {
     } else throw Error('Must provide user and password or email and password');
 
     if (registeredUser == null) throw Error('User not found or bad credentials');
-    if (await comparePassword(req.body.password, registeredUser.password)) throw Error('User not found or bad credentials');
+    if (!await comparePassword(req.body.password, registeredUser.password)) throw Error('User not found or bad credentials');
     if (!registeredUser.roles.includes('validated')) {
       res.status(401).json({ message: 'Your account is not verified. Check your email' });
       return;
@@ -171,7 +172,6 @@ export async function validateUser(req, res) {
     verificationCode.destroy();
     res.status(200).json({ message: 'Verified successfully' });
   } catch (error) {
-    console.log(error);
     res.status(401).json({ message: 'Malformed or expired token' });
   }
 }
@@ -197,7 +197,7 @@ export async function regenerateValidationToken(req, res) {
       res.status(400).json({ message: 'User is already validated' });
       return;
     }
-    if (await comparePassword(req.body.password, registeredUser.password)) throw Error('User not found or bad credentials');
+    if (!await comparePassword(req.body.password, registeredUser.password)) throw Error('User not found or bad credentials');
     const lastValidationToken = await VerificationCodes.findOne({
       where: { id: registeredUser.id },
     });
