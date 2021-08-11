@@ -1,5 +1,4 @@
 import NodeMailer from 'nodemailer';
-import fs from 'fs';
 
 const transporter = NodeMailer.createTransport({
   host: process.env.SMTP_HOST,
@@ -22,7 +21,7 @@ export const recoveryMail = {
   from: 'youremail@gmail.com',
   to: 'myfriend@yahoo.com',
   subject: 'Sending Email using Node.js',
-  html: fs.readFileSync('./recover_password.html'),
+  html: '<h1>Welcome</h1><p>That was easy!</p>',
 };
 
 export const sendEmail = (mail, callback) => {
