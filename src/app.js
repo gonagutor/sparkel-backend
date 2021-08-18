@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import authRoutes from './routes/auth.routes';
 import profileRoutes from './routes/profile.routes';
+import postRoutes from './routes/post.routes';
 
 dotenv.config();
 
@@ -28,5 +29,6 @@ app.get('/', (req, res) => {
 
 app.use('/auth', authRoutes);
 app.use('/profile', profileRoutes);
+app.use('/post', postRoutes);
 
 export default app;

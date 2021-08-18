@@ -39,6 +39,13 @@ export default class Stories extends Model {
             { name: 'id' },
           ],
         },
+        {
+          name: 'stories_pk',
+          unique: true,
+          fields: [
+            { name: 'id' },
+          ],
+        },
       ],
     });
     return Stories;

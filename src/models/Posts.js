@@ -9,7 +9,7 @@ export default class Posts extends Model {
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
       },
-      data_source: {
+      data_uri: {
         type: DataTypes.STRING,
         allowNull: true,
       },
@@ -25,6 +25,10 @@ export default class Posts extends Model {
       sparkled_by: {
         type: DataTypes.ARRAY(DataTypes.UUID),
         allowNull: true,
+      },
+      posted_by: {
+        type: DataTypes.UUID,
+        allowNull: false,
       },
     }, {
       sequelize,

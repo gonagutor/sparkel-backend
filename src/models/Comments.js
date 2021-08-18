@@ -30,6 +30,10 @@ export default class Comments extends Model {
         type: DataTypes.ARRAY(DataTypes.UUID),
         allowNull: true,
       },
+      posted_by: {
+        type: DataTypes.UUID,
+        allowNull: false,
+      },
     }, {
       sequelize,
       tableName: 'comments',
