@@ -45,7 +45,7 @@ export async function login(req, res) {
       id: registeredUser.id,
       roles: registeredUser.roles,
     }, process.env.SECRET, { expiresIn: 60 * 60 * 24 * 15 });
-    res.cookie('AccessToken', JSON.stringify(token), {
+    res.cookie('AccessToken', token, {
       secure: true,
       httpOnly: true,
       expires: moment().add(15, 'days').toDate(),
